@@ -1,7 +1,7 @@
 let express = require("express");
 let app = express();
 // let server = app.listen(3000);
-let server = app.listen(proccess.env.PORT);
+let server = app.listen(process.env.PORT);
 let players = [];
 let terrains = [];
 let ibCount = 0;
