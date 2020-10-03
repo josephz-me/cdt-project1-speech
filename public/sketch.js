@@ -89,7 +89,7 @@ foo.continuous = true;
 foo.interimResults = true;
 
 function showResult() {
-  if (frameCount % 2 === 0) {
+  if (frameCount % 4 === 0) {
     let vol = mic.getLevel();
     let words = foo.resultString.split(" ");
 
