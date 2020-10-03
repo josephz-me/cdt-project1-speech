@@ -38,7 +38,9 @@ function preload() {
 }
 
 function setup() {
-  socket = io.connect("http://localhost:3000");
+  // socket = io.connect("http://localhost:3000");
+  socket = io.connect("https://cdt-speech-project.herokuapp.com/");
+
   textFont(font);
   textAlign(CENTER, CENTER);
   //welcome the user
