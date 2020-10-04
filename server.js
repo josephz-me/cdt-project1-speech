@@ -1,7 +1,7 @@
 let express = require("express");
 let app = express();
-// let server = app.listen(3000);
-let server = app.listen(process.env.PORT);
+let server = app.listen(3000);
+// let server = app.listen(process.env.PORT);
 let players = [];
 let terrains = [];
 let ibCount = 0;
@@ -48,25 +48,23 @@ setInterval(function () {
 
 io.sockets.on("connection", newConnection);
 
+//is this variable shared...?
+let socketId;
 setInterval(function () {
   if (terrains.length !== 0) {
-    moveTerrain();
+    moveTerrain(socket.id);
   }
   io.sockets.emit("heartbeatPlayers", players);
   io.sockets.emit("heartbeatTerrain", terrains);
 }, 33);
 
-let socketId;
 function moveTerrain() {
   for (i = 0; i < terrains.length; i++) {
-    if (terrains[i].id === socketId) {
-      terrains[i].color = playerToColor[terrains[i].id];
-    }
-
     terrains[i].x -= terrains[i].speed;
     //remove elements when they exit the stage
     if (terrains[i].x < 0) {
       terrains.splice(i, 1);
+      console.log("removed");
     }
   }
 }
@@ -75,8 +73,8 @@ function newConnection(socket) {
   socketId = socket.id;
   console.log("new connection " + socket.id);
 
-  // when client just loads on
-  socket.emit("welcome", socket.id);
+  // when client just loads on, update ibCount
+  socket.emit("reInitializeIBcount", ibCount);
 
   socket.on("start", function (data) {
     let random = Math.floor(Math.random() * colorsAvailable.length);
@@ -139,6 +137,11 @@ function newConnection(socket) {
 
   //only runs when a word is pushed
   socket.on("pushIntoTerrain", function (data) {
+    for (let i = 0; i < players.length; i++) {
+      if (players[i].id == data.id) {
+        data.color = players[i].color;
+      }
+    }
     terrains.push(data);
   });
 }

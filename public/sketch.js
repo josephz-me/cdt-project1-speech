@@ -58,14 +58,16 @@ function preload() {
 }
 
 function setup() {
-  // socket = io.connect("http://localhost:3000");
-  socket = io.connect("https://cdt-speech-project.herokuapp.com/");
+  socket = io.connect("http://localhost:3000");
+  // socket = io.connect("https://cdt-speech-project.herokuapp.com/");
 
   textFont(font);
+  ``;
   textAlign(CENTER, CENTER);
   //welcome the user
-  socket.on("welcome", (data) => {
-    console.log("welcome user: " + data);
+  socket.on("reInitializeIBcount", (data) => {
+    console.log(data);
+    ibCount = data;
   });
 
   socket.on("heartbeatPlayers", function (data) {
@@ -79,6 +81,8 @@ function setup() {
 
   socket.on("updateIBCount", function (data) {
     ibCount = data;
+    // audioCue.volume(1);
+    // setVolume(0.5);
     audioCue.play();
     if (ibCount > iceBreakers.length - 1) {
       ibCount = 0;
@@ -163,12 +167,16 @@ function showResult() {
   }
 }
 
+// setInterval(function(){
+//   socket.emit('masterHeartbeat');
+// })
+
 function draw() {
   background("black");
   fill(38, 38, 38);
   rect(width / 2, 0, width, 100);
   textSize(20);
-  fill(187, 134, 252);
+  fill("white");
   text(iceBreakers[ibCount], width / 2, 20);
 
   //draws player on this screen
