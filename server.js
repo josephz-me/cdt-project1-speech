@@ -15,6 +15,14 @@ let colorsAvailable = [
   [223, 72, 49],
   [178, 142, 106],
   [118, 196, 83],
+  [187, 134, 252],
+  [55, 0, 179],
+  [3, 218, 198],
+  [207, 102, 121],
+  [236, 133, 247],
+  [149, 43, 184],
+  [56, 134, 223],
+  [207, 102, 130],
 ];
 
 let playerToColor = {};
@@ -51,7 +59,6 @@ setInterval(function () {
 let socketId;
 function moveTerrain() {
   for (i = 0; i < terrains.length; i++) {
-    console.log(terrains[i].id, socketId);
     if (terrains[i].id === socketId) {
       terrains[i].color = playerToColor[terrains[i].id];
     }
@@ -84,17 +91,18 @@ function newConnection(socket) {
       colorsAvailable[random]
     );
 
-    //console.log(random, colorsAvailable);
     data.color = player.color;
 
     players.push(player);
     playerToColor[player.id] = player.color;
-    console.log(playerToColor[player.id]);
     // remove color from availableColors
     colorsAvailable.splice(random, 1);
     // If there are no availableColors, then throw an error ( > max players)
   });
 
+  socket.on("restartIBCount", function (data) {
+    ibCount = data;
+  });
   // 01 when client side emits
   socket.on("update", function (data) {
     let player;
@@ -117,7 +125,11 @@ function newConnection(socket) {
     console.log("client " + socket.id + "has disconnected");
     for (i = 0; i < players.length; i++) {
       if (socket.id === players[i].id) {
+        console.log(
+          "disconnected players color:" + playerToColor[players[i].id]
+        );
         colorsAvailable.push(playerToColor[players[i].id]);
+        console.log(colorsAvailable);
         players.splice(i, 1);
       }
     }

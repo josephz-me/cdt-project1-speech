@@ -22,9 +22,28 @@ let players = [];
 let id;
 // let userImage;
 let font;
+let audioCue;
 
 //add ice breaker questions
 let iceBreakers = [
+  "Are there any interesting things your name spells with the letters rearranged?",
+  "If you were a potato, what way would you like to be cooked?",
+  "Would you go to space if you knew that you could never come back to earth?",
+  "Have you ever been mistaken for someone famous?",
+  "What animal would you chose to be?",
+  "What is the strangest gift you have ever received?",
+  "What song describes your life right now?",
+  "How many languages can you speak?",
+  "What is your favorite strange food combinations?",
+  "What’s your favorite place?",
+  "If you could be anywhere in the world right now, where would you be?",
+  "Describe your dream holiday if money was no limit?",
+  "Where do you want to retire?",
+  "What would you do if you knew you could not fail?",
+  "What is your goal by the end of the decade?",
+  "What is your dream job?",
+  "What talent would you most like to grow and develop?",
+  "Where would you build your dream home?",
   "Where are you from?",
   "What a hobby of yours?",
   "Tell us something you look forward to.",
@@ -35,6 +54,7 @@ let ibCount = 0;
 
 function preload() {
   font = loadFont("DaysOne-Regular.ttf");
+  audioCue = loadSound("bell.wav");
 }
 
 function setup() {
@@ -59,6 +79,11 @@ function setup() {
 
   socket.on("updateIBCount", function (data) {
     ibCount = data;
+    audioCue.play();
+    if (ibCount > iceBreakers.length - 1) {
+      ibCount = 0;
+      socket.emit("restartIBCount", ibCount);
+    }
   });
 
   player = {
@@ -110,7 +135,7 @@ function showResult() {
           id: socket.id,
           count: 0,
           x: random(width - 20, width),
-          y: random(100, height),
+          y: random(130, height),
           speed: map(random(10, 50), 10, 50, 0.5, 2),
           txt: words[i],
           volume: map(vol, 0.0001, 0.08, 14, 20),
