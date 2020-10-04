@@ -1,12 +1,20 @@
 @charset "UTF-8";
 @font-face {
-  font-family: DaysOne-Regular;
-  src: url("DaysOne-Regular.ttf") format("woff2");
+  font-family: agrandir;
+  src: url("Agrandir-Tight.otf");
+
+  /* font-family: feelsfuzzy;
+  src: url("FeeeelsFuzzyTrialRegular.otf"); */
+}
+
+@font-face {
+  font-family: feelsfuzzy;
+  src: url("FeeeelsFuzzyTrialRegular.otf");
 }
 
 * {
   margin: 0;
-  font-family: DaysOne-Regular, san serif;
+  font-family: agrandir;
   padding: 0;
   border: 0;
   outline: 0;
@@ -26,24 +34,37 @@
 }
 
 .container {
-  /* text-align: center; */
+  text-align: center;
   /* display: flex; */
-  max-width: 1200;
+  max-width: 500px;
   position: absolute;
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  animation: loadIn 0.5s forwards linear 0.4s;
+  -webkit-animation: loadIn 0.5s forwards linear 0.4s;
+  opacity: 0;
 }
+
+h1 {
+  font-family: feelsfuzzy, sans-serif;
+  text-transform: uppercase;
+  font-size: 100px;
+}
+
 h1,
 button {
   color: white;
 }
 
 h2 {
+  font-family: agrandir;
   color: white;
-  opacity: 0.7;
-  font-size: 20px;
+  font-size: 30px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 p {
@@ -54,12 +75,16 @@ p {
 }
 
 button {
+  font-family: feelsfuzzy;
+  text-transform: uppercase;
+  font-size: 40px;
   margin-top: 10px;
-  padding: 20px 40px 20px 40px;
-  border: 2px solid white;
-  background-color: black;
+  padding: 20px 20px 20px 20px;
+  border: 2px solid black;
+  border-radius: 80px;
+  background-color: #fff500;
   cursor: pointer;
-  color: white;
+  color: black;
   transition: 0.5s;
 }
 
@@ -69,13 +94,23 @@ button:hover {
   opacity: 0.8;
   /* When the animation is finished, start again */
   animation-iteration-count: infinite;
-  color: #bb86fc;
-  border: 2px solid #bb86fc;
+  color: #fff500;
+  background-color: black;
+  border: 2px solid #fff500;
 }
 
 .caption {
   font-size: 14px;
   opacity: 30%;
+}
+
+@keyframes loadIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes shake {

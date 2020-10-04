@@ -21,7 +21,8 @@ let player = new Object();
 let players = [];
 let id;
 // let userImage;
-let font;
+let feelsFuzzy;
+let agrandir;
 let audioCue;
 
 //add ice breaker questions
@@ -53,16 +54,14 @@ let iceBreakers = [
 let ibCount = 0;
 
 function preload() {
-  font = loadFont("DaysOne-Regular.ttf");
+  feelsFuzzy = loadFont("FeeeelsFuzzyTrialRegular.otf");
+  agrandir = loadFont("Agrandir-Tight.otf");
   audioCue = loadSound("bell.wav");
 }
 
 function setup() {
   // socket = io.connect("http://localhost:3000");
   socket = io.connect("https://cdt-speech-project.herokuapp.com/");
-
-  textFont(font);
-  ``;
   textAlign(CENTER, CENTER);
   //welcome the user
   socket.on("reInitializeIBcount", (data) => {
@@ -83,7 +82,7 @@ function setup() {
     ibCount = data;
     // audioCue.volume(1);
     // setVolume(0.5);
-    audioCue.play();
+    // audioCue.play();
     if (ibCount > iceBreakers.length - 1) {
       ibCount = 0;
       socket.emit("restartIBCount", ibCount);
@@ -91,8 +90,8 @@ function setup() {
   });
 
   player = {
-    x: 40,
-    y: 90,
+    x: random(40, 60),
+    y: random(140, 160),
     speed: 3,
     dead: false,
     size: 30,
@@ -139,7 +138,7 @@ function showResult() {
           id: socket.id,
           count: 0,
           x: random(width - 20, width),
-          y: random(130, height),
+          y: random(160, height),
           speed: map(random(10, 50), 10, 50, 0.5, 2),
           txt: words[i],
           volume: map(vol, 0.0001, 0.08, 14, 20),
@@ -173,11 +172,21 @@ function showResult() {
 
 function draw() {
   background("black");
-  fill(38, 38, 38);
-  rect(width / 2, 0, width, 100);
-  textSize(20);
-  fill("white");
-  text(iceBreakers[ibCount], width / 2, 20);
+
+  fill(255, 245, 0);
+  rect(width / 2, 0, width, 200);
+
+  //title
+  fill("black");
+  textFont(feelsFuzzy);
+  textSize(30);
+  text("PROMPT", width / 2, 25);
+  //prompt
+  textFont(agrandir);
+  textSize(24);
+
+  text(iceBreakers[ibCount], width / 2, 60);
+  textFont(feelsFuzzy);
 
   //draws player on this screen
   // player.drawPlayer();
@@ -249,7 +258,7 @@ function draw() {
     }
 
     if (keyIsDown(UP_ARROW)) {
-      if (player.y > player.size / 2 + 50) {
+      if (player.y > player.size / 2 + 100) {
         player.y -= player.speed;
       }
     }
