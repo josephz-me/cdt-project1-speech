@@ -144,4 +144,8 @@ function newConnection(socket) {
     }
     terrains.push(data);
   });
+
+  socket.on("clearTerrain", function () {
+    terrains = [];
+  });
 }

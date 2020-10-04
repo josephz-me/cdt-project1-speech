@@ -80,9 +80,8 @@ function setup() {
 
   socket.on("updateIBCount", function (data) {
     ibCount = data;
-    // audioCue.volume(1);
-    // setVolume(0.5);
-    // audioCue.play();
+
+    audioCue.play();
     if (ibCount > iceBreakers.length - 1) {
       ibCount = 0;
       socket.emit("restartIBCount", ibCount);
@@ -173,6 +172,13 @@ function showResult() {
 function draw() {
   background("black");
 
+  fill(30);
+  textFont(agrandir);
+  textAlign(LEFT);
+  textSize(30);
+  text("To clear the screen, press 'C'", 30, height - 40);
+
+  textAlign(CENTER);
   fill(255, 245, 0);
   rect(width / 2, 0, width, 200);
 
@@ -267,5 +273,11 @@ function draw() {
         player.y += player.speed;
       }
     }
+  }
+}
+
+function keyTyped() {
+  if (key === "c") {
+    socket.emit("clearTerrain");
   }
 }
