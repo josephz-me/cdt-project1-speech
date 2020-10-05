@@ -60,8 +60,8 @@ function preload() {
 }
 
 function setup() {
-  socket = io.connect("http://localhost:3000");
-  // socket = io.connect("https://cdt-speech-project.herokuapp.com/");
+  // socket = io.connect("http://localhost:3000");
+  socket = io.connect("https://cdt-speech-project.herokuapp.com/");
   textAlign(CENTER, CENTER);
   //welcome the user
   socket.on("reInitializeIBcount", (data) => {
@@ -180,8 +180,6 @@ function draw() {
   text("To revive after getting eliminated, press 'r'", 30, height - 40);
 
   textAlign(CENTER);
-  fill(255, 245, 0);
-  rect(width / 2, 0, width, 200);
 
   textFont(feelsFuzzy);
 
@@ -232,13 +230,25 @@ function draw() {
   //draw terrain
   if (terrains != null) {
     for (let i = 0; i < terrains.length; i++) {
-      if (dist(player.x, player.y, terrains[i].x, terrains[i].y) < 15) {
+      if (dist(player.x, player.y, terrains[i].x, terrains[i].y) < 20) {
         player.dead = true;
       }
 
       fill(terrains[i].color);
       textSize(terrains[i].volume);
+      let bbox = feelsFuzzy.textBounds(
+        terrains[i].txt,
+        terrains[i].x,
+        terrains[i].y,
+        terrains[i].volume
+      );
+      push();
+      rectMode(CORNER);
+      // textAlign(CENTER);
+      rect(bbox.x - 5, bbox.y - 5, bbox.w + 10, bbox.h + 10);
+      fill("black");
       text(terrains[i].txt, terrains[i].x, terrains[i].y);
+      pop();
     }
   }
 
@@ -266,6 +276,8 @@ function draw() {
     }
   }
   //title
+  fill(255, 245, 0);
+  rect(width / 2, 0, width, 200);
   fill("black");
   textFont(feelsFuzzy);
   textSize(30);
