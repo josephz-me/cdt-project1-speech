@@ -60,8 +60,8 @@ function preload() {
 }
 
 function setup() {
-  // socket = io.connect("http://localhost:3000");
-  socket = io.connect("https://cdt-speech-project.herokuapp.com/");
+  socket = io.connect("http://localhost:3000");
+  // socket = io.connect("https://cdt-speech-project.herokuapp.com/");
   textAlign(CENTER, CENTER);
   //welcome the user
   socket.on("reInitializeIBcount", (data) => {
@@ -183,16 +183,6 @@ function draw() {
   fill(255, 245, 0);
   rect(width / 2, 0, width, 200);
 
-  //title
-  fill("black");
-  textFont(feelsFuzzy);
-  textSize(30);
-  text("PROMPT", width / 2, 25);
-  //prompt
-  textFont(agrandir);
-  textSize(24);
-
-  text(iceBreakers[ibCount], width / 2, 60);
   textFont(feelsFuzzy);
 
   //draws player on this screen
@@ -275,6 +265,15 @@ function draw() {
       }
     }
   }
+  //title
+  fill("black");
+  textFont(feelsFuzzy);
+  textSize(30);
+  text("PROMPT", width / 2, 25);
+  //prompt
+  textFont(agrandir);
+  textSize(24);
+  text(iceBreakers[ibCount], width / 2, 60);
 }
 
 function keyTyped() {
