@@ -176,7 +176,8 @@ function draw() {
   textFont(agrandir);
   textAlign(LEFT);
   textSize(30);
-  text("To clear the screen, press 'C'", 30, height - 40);
+  text("To clear the screen, press 'c'", 30, height - 80);
+  text("To revive after getting eliminated, press 'r'", 30, height - 40);
 
   textAlign(CENTER);
   fill(255, 245, 0);
@@ -279,5 +280,10 @@ function draw() {
 function keyTyped() {
   if (key === "c") {
     socket.emit("clearTerrain");
+  }
+  if (key === "r") {
+    player.dead = false;
+    player.x = 40;
+    player.y = 150;
   }
 }
